@@ -21,7 +21,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    "~/plugins/wicg-inert.client.js",
+    "~/plugins/rich-text-renderer.js",
+    "~/plugins/formRoute.js",],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
