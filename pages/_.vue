@@ -3,16 +3,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 import { useStoryblokBridge, useStoryblokApi } from "@storyblok/nuxt-2";
 export default {
   data() {
     return {
-      story: { content: {} }
-    }
+      story: { content: {} },
+    };
   },
   computed: {
-    ...mapState('global', ['loaded']),
+    ...mapState("global", ["loaded"]),
     version() {
       return this.$nuxt.context.query._storyblok || this.$nuxt.context.isDev
         ? "draft"
@@ -20,13 +20,19 @@ export default {
     },
   },
   async fetch() {
-    const fullSlug = this.$route.path === "/" ? "home" : this.$route.path;
+    if (!this.loaded) {
+      const fullSlug = this.$route.path === "/" ? "home" : this.$route.path;
 
-    const storyblokApi = useStoryblokApi();
-    const { data } = await storyblokApi.get(`cdn/stories/${fullSlug}`, {
-      version: this.version,
-    });
-    this.story = data.story;
+      const storyblokApi = useStoryblokApi();
+      const { data } = await storyblokApi.get(`cdn/stories/${fullSlug}`, {
+        version: this.version,
+      });
+      const globalRes = await storyblokApi.get("cdn/stories/global", {
+        version: "draft",
+      });
+      this.$store.commit("global/setGlobals", globalRes.data.story.content);
+      this.story = data.story;
+    }
   },
   mounted() {
     useStoryblokBridge(this.story.id, (newStory) => (this.story = newStory));

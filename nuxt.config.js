@@ -15,9 +15,11 @@ export default {
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [
-      { 
-        rel: "icon", type: "image/x-icon", href: "/favicon.ico"
-      }, 
+      {
+        rel: "icon",
+        type: "image/x-icon",
+        href: "/favicon.ico",
+      },
       {
         rel: "stylesheet",
         href: '<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">',
@@ -26,13 +28,15 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['~/assets/css/main.css'],
+  css: ["~/assets/css/main.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "~/plugins/wicg-inert.client.js",
     "~/plugins/rich-text-renderer.js",
-    "~/plugins/formRoute.js",],
+    "~/plugins/formRoute.js",
+    "~/plugins/components.js",
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -43,7 +47,7 @@ export default {
     "@nuxtjs/tailwindcss",
     [
       "@storyblok/nuxt-2/module",
-      { accessToken: "vHQhTsvJZVmhi3wXNucWCQtt", apiOptions: { region: "us" } },
+      { accessToken: "CfwYlM9BW7QfUulSWhFrGQtt", apiOptions: { region: "us" } },
     ],
   ],
 

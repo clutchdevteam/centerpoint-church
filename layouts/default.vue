@@ -1,53 +1,68 @@
 <template>
-    <div :class="`min-h-screen flex flex-col ${hasOpenMenu ? 'h-screen overflow-hidden' : ''
-    }`">
-        <SiteHeader :nav="mainNav" :legal-nav="legalNav" :logo="logo" :inert="hasOpenMenu" />
+  <div
+    :class="`min-h-screen flex flex-col ${
+      hasOpenMenu ? 'h-screen overflow-hidden' : ''
+    }`"
+  >
+    <SiteHeader
+      :nav="headerNavigation"
+      :logo="headerLogo"
+      :inert="hasOpenMenu"
+    />
 
-        <main class="flex-1" :inert="hasOpenMenu">
-            <Nuxt />
-        </main>
+    <main class="flex-1" :inert="hasOpenMenu">
+      <Nuxt />
+    </main>
 
-        <SiteFooter :footer-content="footer" :inert="hasOpenMenu" />
+    <!-- <SiteFooter
+      :nav="footerNavigation"
+      :logo="footerLogo"
+      :inert="hasOpenMenu"
+    /> -->
 
-        <PortalTarget name="modal"></PortalTarget>
-        <PortalTarget name="mobile-menu"></PortalTarget>
-    </div>
+    <!-- <PortalTarget name="modal"></PortalTarget>
+        <PortalTarget name="mobile-menu"></PortalTarget> -->
+  </div>
 </template>
-  
+
 <script>
 import { mapState } from "vuex";
+import SiteHeader from "@/components/SiteHeader.vue";
+// import SiteFooter from "@/components/SiteFooter";
 
 export default {
-    computed: {
-        ...mapState("global", [
-            "pageHasModalOpen",
-            "isMobileMenuOpen",
-            "mainNav",
-            "legalNav",
-            "logo",
-            "footer",
-        ]),
-        hasOpenMenu() {
-            return this.pageHasModalOpen || this.isMobileMenuOpen;
-        },
+  components: {
+    SiteHeader,
+  },
+  computed: {
+    ...mapState("global", [
+      "pageHasModalOpen",
+      "isMobileMenuOpen",
+      "headerNavigation",
+      "headerLogo",
+      "footerLogo",
+      "footerNavigation",
+    ]),
+    hasOpenMenu() {
+      return this.pageHasModalOpen || this.isMobileMenuOpen;
     },
+  },
 };
 </script>
-  
+
 <style lang="postcss" scoped>
 body {
-    overflow-x: hidden;
-    margin: 0;
+  overflow-x: hidden;
+  margin: 0;
 }
 
 header,
 footer {
-    flex-grow: 0;
+  flex-grow: 0;
 }
 
 main {
-    display: flex;
-    flex-grow: 1;
+  display: flex;
+  flex-grow: 1;
 }
 </style>
-  
