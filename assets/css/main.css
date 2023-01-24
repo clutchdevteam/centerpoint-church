@@ -1,3 +1,25 @@
 body {
-    @apply font-display;
+  @apply overflow-x-hidden font-display;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s;
+}
+
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+.base-wrapper {
+  @apply container mx-auto px-4 xl:px-0;
+}
+
+.desktop-container {
+  @apply mx-auto px-6 xl:px-0;
+  max-width: 1080px;
 }

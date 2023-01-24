@@ -1,7 +1,7 @@
 <template>
   <div class="test-bg-color">
     <header
-      class="container mx-auto flex justify-between items-center bg-white z-50 px-6 py-3 lg:p-0"
+      class="container mx-auto flex justify-between items-center bg-white z-50 px-6 py-3 lg:px-0"
     >
       <Nuxt-link to="/">
         <img v-if="logo" :src="logo.filename" :alt="logo.alt" />
