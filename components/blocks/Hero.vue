@@ -61,7 +61,6 @@ section {
 }
 
 .background-image {
-  filter: blur(0.25rem);
   position: absolute;
   object-fit: cover;
   height: 100%;
