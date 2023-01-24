@@ -64,5 +64,26 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    extend(config, { isClient }) {
+      if (isClient) {
+        config.devtool = "source-map";
+      }
+
+      const svgRule = config.module.rules.find((rule) =>
+        rule.test.test(".svg")
+      );
+
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: ["babel-loader", "vue-svg-loader"],
+      });
+
+      config.node = {
+        fs: "empty",
+      };
+    },
+  },
 };

@@ -1,114 +1,175 @@
 <template>
   <div class="test-bg-color">
     <header
-      class="container mx-auto flex justify-between h-12 items-center bg-white z-50"
+      class="container mx-auto flex justify-between items-center bg-white z-50 px-6 py-3 lg:p-0"
     >
       <Nuxt-link to="/">
         <img v-if="logo" :src="logo.filename" :alt="logo.alt" />
       </Nuxt-link>
-      <nav>
+      <nav class="desktop hidden lg:block">
         <ul class="flex">
-          <li
-            v-for="(item, i) in nav"
-            v-on:click="menuDrop(i)"
-            :key="i"
-            id="topLevelMenuItem"
-          >
-            <button
-              class="dropdown flex items-center text-xs border-l border-gray px-3 relative"
+          <li v-for="item in nav" :key="item._uid">
+            <BaseMenuItem class="nav-submenu" v-if="item.menu" :menu="item" />
+
+            <nuxt-link
+              v-else
+              class="block"
+              :id="item.label.toLowerCase().replace(' ', '-')"
+              :to="$formRoute({ url: item.link.cached_url })"
             >
               {{ item.label }}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-                class="w-4 h-4 text-secondary ml-1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-              <Transition name="slide" appear>
-                <ul
-                  v-if="openMenuIndex === i"
-                  id="dropdown-content"
-                  class="absolute flex flex-col mt-44 -ml-3 border-l border-r border-b border-gray min-w-[120px] z-0"
-                >
-                  <li
-                    v-for="subItem in item.menu"
-                    :key="subItem.id"
-                    class="py-3 px-2 border-t border-gray"
-                  >
-                    <Nuxt-link to="subItem.link.cached_url">
-                      {{ subItem.label }}
-                    </Nuxt-link>
-                  </li>
-                </ul>
-              </Transition>
-            </button>
+            </nuxt-link>
           </li>
         </ul>
       </nav>
+
+      <div class="lg:hidden">
+        <button
+          ref="openButtonRef"
+          @click="toggleMobileMenu"
+          type="button"
+          :inert="isMobileMenuOpen"
+        >
+          <span class="sr-only">Open main menu</span>
+          <BaseIcon class="w-8 h-8" file="menu-icon" alt="Open Menu" />
+
+          <Portal to="mobile-menu">
+            <div
+              :class="`mobile z-[52] fixed inset-0 bg-black transition duration-150 ${
+                isMobileMenuOpen
+                  ? 'bg-opacity-75'
+                  : 'bg-opacity-0 pointer-events-none'
+              }`"
+              :inert="!isMobileMenuOpen"
+              @keydown.esc="closeMenu"
+            >
+              <div
+                :class="`flex transform transition-transform duration-150 ease-in-out ${
+                  isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                }`"
+              >
+                <div>
+                  <button
+                    class="flex justify-center items-center bg-white rounded-full ml-4 mr-4 mt-4 h-12 w-12"
+                    ref="closeButtonRef"
+                    @click="closeMenu"
+                    type="button"
+                  >
+                    <span class="sr-only">Close menu</span>
+                    <BaseIcon
+                      class="w-6 h-6 text-primary-default"
+                      file="close-icon"
+                      alt="Close Menu"
+                    />
+                  </button>
+                </div>
+
+                <div
+                  class="flex flex-col justify-between h-screen w-full bg-white"
+                >
+                  <nav role="navigation">
+                    <ul>
+                      <li
+                        class="p-4 border-b border-gray"
+                        v-for="item in nav"
+                        :key="item._uid"
+                      >
+                        <BaseMenuItem
+                          class="nav-submenu"
+                          v-if="item.menu"
+                          :menu="item"
+                        />
+
+                        <nuxt-link
+                          v-else
+                          class="block"
+                          :id="item.label.toLowerCase().replace(' ', '-')"
+                          :to="$formRoute({ url: item.link.cached_url })"
+                        >
+                          {{ item.label }}
+                        </nuxt-link>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </Portal>
+        </button>
+      </div>
     </header>
   </div>
 </template>
 
 <script>
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import BaseMenuItem from "@/components/base/BaseMenuItem.vue";
+import { mapState } from "vuex";
+import { Portal } from "portal-vue";
+
 export default {
-  data() {
-    return {
-      openMenuIndex: null,
-    };
+  components: {
+    BaseMenuItem,
+    BaseIcon,
+    Portal,
   },
   props: {
-    logo: {
-      type: Object,
-    },
+    logo: { type: Object },
     nav: {
       type: Array,
-      required: true,
+    },
+  },
+  computed: {
+    ...mapState("global", ["isMobileMenuOpen", "pageHasModalOpen"]),
+    isHomePage() {
+      return this.$route.fullPath === "/" || this.$route.fullPath === "/home";
+    },
+  },
+  watch: {
+    $route(to, from) {
+      this.closeMenu();
     },
   },
   methods: {
-    menuDrop: function (index) {
-      this.openMenuIndex = index;
+    async toggleMobileMenu() {
+      await this.$store.commit(
+        "global/isMobileMenuOpen",
+        !this.isMobileMenuOpen
+      );
+      await this.$nextTick();
+      await this.$nextTick();
 
-      console.log(this.openMenuIndex);
+      this.$refs.closeButtonRef?.focus();
+    },
+    async closeMenu() {
+      await this.$store.commit("global/isMobileMenuOpen", false);
+      await this.$nextTick();
+      await this.$nextTick();
+
+      this.$refs.openButtonRef?.focus();
     },
   },
 };
 </script>
 
-<style lang="postcss" scoped>
-/* .test-bg-color {
-  background-color: gray;
-} */
+<style lang="postcss">
+.desktop ul li {
+  @apply relative;
 
-.dropdown-content {
-  display: none;
+  & .nav-submenu button {
+    @apply px-4 py-2 border-l text-sm border-r border-gray;
+  }
 }
 
-.dropdown-click {
-  display: block;
+.desktop ul li .nav-submenu ul {
+  @apply absolute bg-white shadow-lg w-full;
+
+  & li div a {
+    @apply px-2 py-3 text-sm;
+  }
 }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: all;
-  transform: translateY(0);
-  transition-duration: 150ms;
+.mobile div div nav ul li .nav-submenu ul li {
+  @apply py-2 pl-3;
 }
-
-.slide-enter-from,
-.slide-leave-to {
-  transform: translateY(-100%);
-}
-
-/* .dropdown:hover .dropdown-content {
-  display: block;
-} */
 </style>
