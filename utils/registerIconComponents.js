@@ -7,4 +7,5 @@ export default {
   QuoteIcon: () => import("~/assets/icons/quote-icon.svg?inline"),
   FacebookIcon: () => import("~/assets/icons/facebook-icon.svg?inline"),
   HomeplateIcon: () => import("~/assets/icons/homeplate-icon.svg?inline"),
+  ChatIcon: () => import("~/assets/icons/chat-icon.svg?inline"),
 };
