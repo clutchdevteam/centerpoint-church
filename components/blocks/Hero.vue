@@ -1,11 +1,17 @@
 <template>
   <section>
     <div class="background-overlay" />
-    <img
-      class="background-image"
-      :src="block.backgroundContent.filename"
-      alt=""
-    />
+    <div>
+      <img
+        class="background-image"
+        :src="backgroundContent.image.filename"
+        alt=""
+      />
+
+      <video class="background-video" autoplay>
+        <source :src="backgroundContent.video.filename" />
+      </video>
+    </div>
 
     <div class="z-10 base-wrapper text-white">
       <div class="mb-6">
@@ -46,6 +52,14 @@ export default {
       required: true,
     },
   },
+  computed: {
+    backgroundContent() {
+      return this.block.backgroundContent[0];
+    },
+    hasVideo() {
+      return this.block.backgroundContent[0].image ? true : false;
+    },
+  },
 };
 </script>
 
@@ -60,7 +74,12 @@ section {
   overflow: hidden;
 }
 
-.background-image {
+.background-video {
+  filter: saturate(0);
+}
+
+.background-image,
+.background-video {
   position: absolute;
   object-fit: cover;
   height: 100%;
@@ -72,8 +91,9 @@ section {
   bottom: 0;
 }
 
-@media (min-width: 768px) {
-  .background-image {
+@media (min-width: 1270px) {
+  .background-image,
+  .background-video {
     height: auto;
     width: 100%;
   }
