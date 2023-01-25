@@ -8,4 +8,5 @@ export default {
   FacebookIcon: () => import("~/assets/icons/facebook-icon.svg?inline"),
   HomeplateIcon: () => import("~/assets/icons/homeplate-icon.svg?inline"),
   ChatIcon: () => import("~/assets/icons/chat-icon.svg?inline"),
+  ArrowRight: () => import("~/assets/icons/arrow-right.svg?inline"),
 };
