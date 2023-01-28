@@ -11,7 +11,7 @@ export default {
       type: String,
       required: true,
       validator: (value) =>
-        ["h1", "h2", "h3", "h4", "h5", "h6"].includes(value),
+        ["h1", "h2", "h3", "h4", "h5", "h6", "h7"].includes(value),
     },
     /** The semantic HTML element used for the heading. Defaults to the value of `size`. */
     tag: {
@@ -69,6 +69,12 @@ h6 {
 
 .h6 {
   @apply text-lg font-normal leading-tight;
+}
+
+.h7 {
+  @apply text-sm font-normal;
+
+  color: #5151ce;
 }
 
 @screen lg {
