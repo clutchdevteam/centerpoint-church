@@ -2,17 +2,17 @@
   <section class="my-32">
     <div class="base-wrapper">
       <div>
-        <BaseHeading size="h7" class="mt-7">
+        <BaseHeading v-if="block.section_title" size="h7" class="mt-7">
           {{ block.section_title }}
         </BaseHeading>
 
-        <BaseHeading size="h2">
+        <BaseHeading v-if="block.heading_text" size="h2">
           {{ block.heading_text }}
         </BaseHeading>
 
         <div class="h-1 w-32 bg-accent my-4" />
 
-        <p class="font-display text-lg mt-6">
+        <p v-if="block.text_block" class="font-display text-lg mt-6">
           {{ block.text_block }}
         </p>
       </div>
