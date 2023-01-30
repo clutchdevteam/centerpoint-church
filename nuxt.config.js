@@ -55,6 +55,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
+    "@nuxtjs/composition-api/module",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
