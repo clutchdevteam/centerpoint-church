@@ -1,10 +1,10 @@
 <template>
-  <section class="my-32">
-    <div class="base-wrapper">
+  <section class="my-14 lg:my-32 base-wrapper">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
       <div>
-        <BaseHeading size="h7" class="mt-7">
+        <p class="small-p text-sm mt-7">
           {{ block.section_title }}
-        </BaseHeading>
+        </p>
 
         <BaseHeading size="h2">
           {{ block.heading_text }}
@@ -16,7 +16,12 @@
           {{ block.text_block }}
         </p>
       </div>
-      <img :src="block.image.filename" :alt="block.image.alt" />
+
+      <img
+        class="drop-shadow-lg"
+        :src="block.image.filename"
+        :alt="block.image.alt"
+      />
     </div>
   </section>
 </template>
@@ -38,21 +43,7 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.base-wrapper {
-  @apply flex-col;
-}
-
-img {
-  @apply mt-10;
-}
-
-@media (min-width: 1023px) {
-  .base-wrapper {
-    @apply flex-row;
-  }
-
-  p {
-    @apply mr-32;
-  }
+.small-p {
+  color: #5151ce;
 }
 </style>

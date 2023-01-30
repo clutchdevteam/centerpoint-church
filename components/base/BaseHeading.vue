@@ -71,12 +71,6 @@ h6 {
   @apply text-lg font-normal leading-tight;
 }
 
-.h7 {
-  @apply text-sm font-normal;
-
-  color: #5151ce;
-}
-
 @screen lg {
   .h1 {
     font-size: 65px;
