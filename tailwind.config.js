@@ -15,6 +15,9 @@ module.exports = {
                     'Apple Color Emoji',
                     'Segoe UI Emoji',
                 ]
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+        ],
             },
             colors: {
                 primary: '#5151CE',
