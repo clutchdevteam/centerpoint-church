@@ -2,7 +2,7 @@
   <div>
     <div class="z-50 relative container mx-auto">
       <header
-        class="flex justify-between items-center bg-white px-6 py-3 lg:px-0"
+        class="flex justify-between items-center bg-white px-6 py-3 xl:px-0"
       >
         <Nuxt-link to="/">
           <img class="h-5" v-if="logo" :src="logo.filename" :alt="logo.alt" />
@@ -12,14 +12,14 @@
             <li v-for="item in nav" :key="item._uid">
               <BaseMenuItem class="nav-submenu" v-if="item.menu" :menu="item" />
 
-              <nuxt-link
+              <BaseLink
                 v-else
+                :link="item.link"
                 class="block"
                 :id="item.label.toLowerCase().replace(' ', '-')"
-                :to="$formRoute({ url: item.link.cached_url })"
               >
                 {{ item.label }}
-              </nuxt-link>
+              </BaseLink>
             </li>
           </ul>
         </nav>
@@ -81,14 +81,14 @@
                             :menu="item"
                           />
 
-                          <nuxt-link
+                          <BaseLink
                             v-else
+                            :link="item.link"
                             class="block"
                             :id="item.label.toLowerCase().replace(' ', '-')"
-                            :to="$formRoute({ url: item.link.cached_url })"
                           >
                             {{ item.label }}
-                          </nuxt-link>
+                          </BaseLink>
                         </li>
                       </ul>
                     </nav>
@@ -111,6 +111,7 @@
 <script>
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseMenuItem from "@/components/base/BaseMenuItem.vue";
+import BaseLink from "@/components/base/BaseLink.vue";
 import { mapState } from "vuex";
 import { Portal } from "portal-vue";
 
@@ -118,6 +119,7 @@ export default {
   components: {
     BaseMenuItem,
     BaseIcon,
+    BaseLink,
     Portal,
   },
   props: {
@@ -169,10 +171,10 @@ export default {
 }
 
 .desktop ul li .nav-submenu ul {
-  @apply absolute bg-white shadow-lg w-full;
+  @apply absolute bg-white shadow-lg min-w-[150px] w-full;
 
   & li div a {
-    @apply px-2 py-3 text-sm;
+    @apply block px-4 py-3 text-sm;
   }
 }
 

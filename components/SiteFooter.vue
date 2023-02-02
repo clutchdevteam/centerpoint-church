@@ -38,9 +38,9 @@
                   v-for="link in item.menu"
                   :key="link._uid"
                 >
-                  <nuxt-link :to="$formRoute({ url: link.link.cached_url })">
+                  <BaseLink :link="link.link">
                     {{ link.label }}
-                  </nuxt-link>
+                  </BaseLink>
                 </li>
               </ul>
             </li>
@@ -57,10 +57,12 @@
 
 <script>
 import BaseIcon from "./base/BaseIcon.vue";
+import BaseLink from "@/components/base/BaseLink.vue";
 
 export default {
   components: {
     BaseIcon,
+    BaseLink,
   },
   props: {
     nav: {
