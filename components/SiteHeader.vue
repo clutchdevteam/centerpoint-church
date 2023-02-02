@@ -7,7 +7,7 @@
         <Nuxt-link to="/">
           <img class="h-5" v-if="logo" :src="logo.filename" :alt="logo.alt" />
         </Nuxt-link>
-        <nav class="desktop hidden lg:block">
+        <nav class="desktop hidden lg:block z-30">
           <ul class="flex">
             <li v-for="item in nav" :key="item._uid">
               <BaseMenuItem class="nav-submenu" v-if="item.menu" :menu="item" />
@@ -100,7 +100,7 @@
         </div>
       </header>
 
-      <a href="/" class="z-20 absolute text-white flex right-6 lg:right-0 mt-3">
+      <a href="/" class="absolute text-white flex right-6 lg:right-0 mt-3">
         <BaseIcon class="h-6 w-6 mr-3" file="chat-icon" fill="none" />
         Need to talk
       </a>
