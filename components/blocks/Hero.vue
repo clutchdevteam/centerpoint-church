@@ -25,7 +25,7 @@
 
         <div class="flex space-x-6">
           <div v-for="button in block.cta[0].buttons" :key="button._uid">
-            <BaseButton :href="button.link.cached_url" :theme="button.theme">
+            <BaseButton :link="button.link" :theme="button.theme">
               {{ button.label }}
 
               <template v-if="button.helper" #helper>
@@ -87,14 +87,14 @@
             {{ quicklink.title }}
           </BaseHeading>
 
-          <a :href="quicklink.link.cached_url">
+          <BaseLink :link="quicklink.link">
             {{ quicklink.linkText }}
             <BaseIcon
               file="arrow-right"
               class="inline ml-3 h-4 w-4"
               alt="arrow right"
             />
-          </a>
+          </BaseLink>
         </div>
       </article>
     </div>
@@ -105,12 +105,14 @@
 import BaseHeading from "@/components/base/BaseHeading.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
+import BaseLink from "../base/BaseLink.vue";
 
 export default {
   components: {
     BaseHeading,
     BaseButton,
     BaseIcon,
+    BaseLink,
   },
   props: {
     block: {

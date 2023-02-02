@@ -7,7 +7,7 @@
     <button
       @click.prevent="toggleMenu(menu)"
       :id="menuId"
-      class="flex items-center justify-between w-full"
+      class="flex items-center justify-between w-full whitespace-nowrap"
       aria-haspopup="true"
       ref="menuButtonRef"
       :aria-expanded="isOpen.toString()"

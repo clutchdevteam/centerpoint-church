@@ -4,24 +4,26 @@
       <BaseMenuItem :menu="menu" />
     </template>
 
-    <nuxt-link
-      class="block"
+    <BaseLink
       v-else
+      class="block whitespace-nowrap"
+      :link="menu.link"
       :id="menu.label.toLowerCase().replace(' ', '-')"
-      :to="$formRoute({ url: menu.link.cached_url })"
     >
       {{ menu.label }}
-    </nuxt-link>
+    </BaseLink>
   </div>
 </template>
 
 <script>
 import BaseMenuItem from "./BaseMenuItem.vue";
+import BaseLink from "./BaseLink.vue";
 
 export default {
   name: "BaseMenu",
   components: {
     BaseMenuItem,
+    BaseLink,
   },
   props: {
     menu: {

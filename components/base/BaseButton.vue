@@ -1,12 +1,8 @@
 <template>
   <div class="flex flex-col items-center">
-    <nuxt-link
-      :class="`btn btn-${theme}`"
-      v-if="href"
-      :to="$formRoute({ url: href })"
-    >
+    <BaseLink :class="`btn btn-${theme}`" v-if="link" :link="link">
       <slot />
-    </nuxt-link>
+    </BaseLink>
 
     <button
       v-else
@@ -24,7 +20,12 @@
 </template>
 
 <script>
+import BaseLink from "./BaseLink.vue";
+
 export default {
+  components: {
+    BaseLink,
+  },
   props: {
     type: {
       type: String,
@@ -34,8 +35,8 @@ export default {
       type: String,
       default: "primary",
     },
-    href: {
-      type: String,
+    link: {
+      type: Object,
       required: false,
     },
   },
