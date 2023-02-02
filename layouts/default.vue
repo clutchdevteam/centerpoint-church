@@ -14,11 +14,11 @@
       <Nuxt />
     </main>
 
-    <!-- <SiteFooter
+    <SiteFooter
       :nav="footerNavigation"
       :logo="footerLogo"
       :inert="hasOpenMenu"
-    /> -->
+    />
 
     <PortalTarget name="modal"></PortalTarget>
     <PortalTarget name="mobile-menu"></PortalTarget>
@@ -29,11 +29,12 @@
 import { mapState } from "vuex";
 import SiteHeader from "@/components/SiteHeader.vue";
 import { PortalTarget } from "portal-vue";
-// import SiteFooter from "@/components/SiteFooter";
+import SiteFooter from "@/components/SiteFooter";
 
 export default {
   components: {
     SiteHeader,
+    SiteFooter,
     PortalTarget,
   },
   computed: {
