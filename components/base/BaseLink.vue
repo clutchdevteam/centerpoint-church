@@ -3,6 +3,7 @@
     <nuxt-link
       v-if="link.linktype === 'story'"
       :to="$formRoute({ url: link.cached_url })"
+      prefetch
     >
       <slot />
     </nuxt-link>

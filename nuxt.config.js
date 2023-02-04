@@ -36,6 +36,7 @@ export default {
     "~/plugins/rich-text-renderer.js",
     "~/plugins/formRoute.js",
     "~/plugins/components.js",
+    "~/plugins/v-calendar.client.js",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
