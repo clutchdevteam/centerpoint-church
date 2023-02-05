@@ -2,7 +2,7 @@
   <section class="my-14 lg:my-32 base-wrapper">
     <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
       <div>
-        <p class="small-p text-sm mt-7">
+        <p class="text-primary text-sm mt-7">
           {{ block.section_title }}
         </p>
 
@@ -18,7 +18,7 @@
       </div>
 
       <img
-        class="drop-shadow-lg"
+        class="w-full h-auto drop-shadow-lg"
         :src="block.image.filename"
         :alt="block.image.alt"
       />
@@ -42,8 +42,4 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
-.small-p {
-  color: #5151ce;
-}
-</style>
+<style lang="postcss" scoped></style>
