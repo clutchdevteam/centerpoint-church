@@ -1,5 +1,5 @@
 <template>
-  <section class="py-12 lg:py-16" :class="`${block.variant ? 'bg-gray' : ''}`">
+  <section class="py-12 lg:py-16" :class="bgTheme(block)">
     <div class="base-wrapper">
       <div class="flex flex-col items-center">
         <p class="text-primary">{{ block.title }}</p>
@@ -18,10 +18,9 @@
           class="mt-4 lg:mt-6"
         >
           <BaseLink
-            :class="`${block.variant ? 'btn btn-gray-bg' : 'btn btn-white-bg'}`"
+            :class="btnTheme(block)"
             v-if="button.link"
             :link="button.link"
-            class="block"
             :id="button.label.toLowerCase().replace(' ', '-')"
           >
             {{ button.label }}
@@ -51,10 +50,44 @@ export default {
       required: false,
     },
   },
+
+  methods: {
+    bgTheme(block) {
+      let theme = block.variant;
+
+      switch (theme) {
+        case "":
+          theme = "";
+          break;
+        case "gray":
+          theme = "bg-gray";
+          break;
+      }
+      return theme;
+    },
+
+    btnTheme(block) {
+      let theme = block.variant;
+
+      switch (theme) {
+        case "":
+          theme = "btn btn-white-bg";
+          break;
+        case "gray":
+          theme = "btn btn-gray-bg";
+          break;
+      }
+      return theme;
+    },
+  },
 };
 </script>
 
 <style lang="postcss" scoped>
+.section-bg {
+  @apply bg-gray;
+}
+
 .btn {
   @apply px-4 py-2 font-display font-bold transition duration-150 ease-in-out border-2 border-transparent text-center;
 
