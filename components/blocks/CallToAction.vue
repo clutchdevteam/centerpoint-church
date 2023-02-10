@@ -56,12 +56,11 @@ export default {
       let theme = block.variant;
 
       switch (theme) {
-        case "":
-          theme = "";
-          break;
-        case "gray":
+        case "dark":
           theme = "bg-gray";
           break;
+        default:
+          theme = "bg-white";
       }
       return theme;
     },
@@ -70,12 +69,11 @@ export default {
       let theme = block.variant;
 
       switch (theme) {
-        case "":
-          theme = "btn btn-white-bg";
+        case "dark":
+          theme = "btn btn-secondary";
           break;
-        case "gray":
-          theme = "btn btn-gray-bg";
-          break;
+        default:
+          theme = "btn btn-primary";
       }
       return theme;
     },
@@ -84,26 +82,22 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.section-bg {
-  @apply bg-gray;
-}
-
 .btn {
   @apply px-4 py-2 font-display font-bold transition duration-150 ease-in-out border-2 border-transparent text-center;
 
-  &.btn-white-bg {
-    @apply text-primary border-black;
+  &.btn-primary {
+    @apply bg-primary tracking-wider text-white;
 
     &:hover {
-      @apply border-black bg-primary text-white;
+      @apply border-secondary bg-opacity-50 text-primary;
     }
   }
 
-  &.btn-gray-bg {
-    @apply bg-primary border-primary text-white;
+  &.btn-secondary {
+    @apply border-2 border-secondary;
 
     &:hover {
-      @apply border-secondary bg-secondary bg-opacity-50 text-black;
+      @apply bg-secondary bg-opacity-50;
     }
   }
 }
