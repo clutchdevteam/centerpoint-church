@@ -11,15 +11,15 @@
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <div class="relative">
           <div class="flex place-items-end">
-            <div class="absolute z-30 flex flex-col ml-2 mb-2 lg:ml-8 lg:mb-14">
-              <p
-                class="text-white text-4xl lg:text-6xl font-semibold lg;ml-1 mb-2"
-              >
-                {{ block.large_image_with_link[0].title }}
-              </p>
-              <p class="text-white text-xl lg:text-2xl lg:ml-1 mb-6">
-                {{ block.large_image_with_link[0].day_time }}
-              </p>
+            <div class="absolute z-30 flex flex-col space-y-4 p-6 xl:p-12">
+              <div>
+                <p class="text-white text-3xl lg:text-4xl font-semibold">
+                  {{ block.large_image_with_link[0].title }}
+                </p>
+                <p class="text-white text-lg lg:text-xl">
+                  {{ block.large_image_with_link[0].day_time }}
+                </p>
+              </div>
               <div
                 v-for="button in block.large_image_with_link[0].button"
                 :key="button._uid"
@@ -27,7 +27,7 @@
                 <BaseButton
                   :link="button.link"
                   :theme="button.theme"
-                  class="text-white -ml-36 lg:-ml-80"
+                  class="text-white"
                   >{{ button.label }}
 
                   <template v-if="button.helper" #helper>
@@ -52,13 +52,13 @@
             :key="item._uid"
             class="relative"
           >
-            <div class="absolute inset-0 w-full h-full z-30">
+            <div class="absolute inset-0 w-full h-full z-30 p-6 lg:p-12">
               <div class="flex h-full">
-                <div class="place-self-center ml-2 lg:ml-8">
-                  <div class="text-white font-semibold text-2xl lg:text-5xl">
+                <div class="place-self-center">
+                  <div class="text-white font-semibold text-2xl lg:text-3xl ">
                     {{ item.title }}
                   </div>
-                  <div class="text-white text-xl lg:text-2xl">
+                  <div class="text-white text-lg lg:text-xl">
                     {{ item.day_time }}
                   </div>
                 </div>
