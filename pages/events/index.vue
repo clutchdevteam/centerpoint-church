@@ -9,7 +9,7 @@
         class="w-full rounded-md overflow-hidden bg-white shadow-md cursor-pointer"
         v-for="event in events"
         :key="event._uid"
-        @click.prevent="$router.push({ path: event.slug })"
+        @click.prevent="$router.push({ path: event.full_slug })"
       >
         <div class="relative h-[120px] overflow-hidden">
           <div class="absolute h-full w-full bg-secondary opacity-75" />
@@ -20,7 +20,7 @@
           />
         </div>
         <header class="flex flex-col p-6">
-          <a :href="event.slug">
+          <a :href="event.full_slug">
             <BaseHeading size="h4" tag="h3">{{ event.name }}</BaseHeading>
           </a>
 
