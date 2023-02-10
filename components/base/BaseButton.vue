@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center">
+  <div>
     <BaseLink :class="`btn btn-${theme}`" v-if="link" :link="link">
       <slot />
     </BaseLink>
@@ -46,6 +46,7 @@ export default {
 <style lang="postcss" scoped>
 .btn {
   @apply px-4 py-2 font-display font-bold transition duration-150 ease-in-out border-2 border-transparent text-center;
+  max-width: 150px;
 
   &.btn-primary {
     @apply bg-primary tracking-wider;
