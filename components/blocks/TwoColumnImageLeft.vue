@@ -1,12 +1,17 @@
 <template>
   <section class="my-14 lg:my-32 base-wrapper">
     <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+      <img
+        class="w-full h-auto drop-shadow-lg"
+        :src="block.image.filename"
+        :alt="block.image.alt"
+      />
       <div>
-        <p class="text-primary text-sm mt-7">
+        <p v-if="block.section_title" class="text-primary text-sm lg:mt-7">
           {{ block.section_title }}
         </p>
 
-        <BaseHeading v-if="block.heading_text" size="h2">
+        <BaseHeading size="h2">
           {{ block.heading_text }}
         </BaseHeading>
 
@@ -24,12 +29,6 @@
           </BaseLink>
         </template>
       </div>
-
-      <img
-        class="w-full h-auto drop-shadow-lg"
-        :src="block.image.filename"
-        :alt="block.image.alt"
-      />
     </div>
   </section>
 </template>
