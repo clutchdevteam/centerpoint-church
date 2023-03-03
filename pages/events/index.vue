@@ -5,30 +5,7 @@
     <section
       class="base-wrapper my-24 grid md:grid-cols-2 xl:grid-cols-3 gap-12"
     >
-      <article
-        class="w-full rounded-md overflow-hidden bg-white shadow-md cursor-pointer"
-        v-for="event in events"
-        :key="event._uid"
-        @click.prevent="$router.push({ path: event.full_slug })"
-      >
-        <div class="relative h-[120px] overflow-hidden">
-          <div class="absolute h-full w-full bg-secondary opacity-75" />
-          <img
-            class="w-full h-[120px] object-cover"
-            :src="event.content.image.filename"
-            alt=""
-          />
-        </div>
-        <header class="flex flex-col p-6">
-          <a :href="event.full_slug">
-            <BaseHeading size="h4" tag="h3">{{ event.name }}</BaseHeading>
-          </a>
-
-          <p class="opacity-50 mb-4">{{ getDate(event.content.date) }}</p>
-
-          <p class="text-primary underline">See More</p>
-        </header>
-      </article>
+      <EventCard v-for="event in events" :key="event.id" :event="event" />
     </section>
   </div>
 </template>
@@ -39,10 +16,12 @@ import { useStoryblokBridge, useStoryblokApi } from "@storyblok/nuxt-2";
 import { formatDate } from "@/utils/dates";
 
 import BaseHeading from "@/components/base/BaseHeading.vue";
+import EventCard from "@/components/EventCard.vue";
 
 export default {
   components: {
     BaseHeading,
+    EventCard,
   },
   data() {
     return {
@@ -86,7 +65,11 @@ export default {
         starts_with: "events/",
       });
 
-      this.events = events.data.stories.filter((story) => !story.is_startpage);
+      this.events = events.data.stories
+        .filter((story) => !story.is_startpage)
+        .sort((a, b) => {
+          return new Date(b.content.date) - new Date(a.content.date);
+        });
     },
     getDate(date) {
       return formatDate(date);
