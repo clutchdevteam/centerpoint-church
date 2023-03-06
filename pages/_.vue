@@ -20,19 +20,19 @@ export default {
     },
   },
   async fetch() {
-    if (!this.loaded) {
-      const fullSlug = this.$route.path === "/" ? "home" : this.$route.path;
+    const fullSlug = this.$route.path === "/" ? "home" : this.$route.path;
 
-      const storyblokApi = useStoryblokApi();
-      const { data } = await storyblokApi.get(`cdn/stories/${fullSlug}`, {
-        version: this.version,
-      });
+    const storyblokApi = useStoryblokApi();
+    const { data } = await storyblokApi.get(`cdn/stories/${fullSlug}`, {
+      version: this.version,
+    });
+    this.story = data.story;
+    if (!this.loaded) {
       const globalRes = await storyblokApi.get("cdn/stories/global", {
         version: this.version,
       });
       this.$store.commit("global/setGlobals", globalRes.data.story.content);
       this.$store.commit("global/setLoaded", true);
-      this.story = data.story;
     }
   },
   mounted() {
