@@ -25,4 +25,7 @@ export const mutations = {
     state.footerNavigation = globals.footerNavigation;
     state.footerLogo = globals.footerLogo;
   },
+  setLoaded(state, loaded) {
+    state.loaded = loaded;
+  },
 };
