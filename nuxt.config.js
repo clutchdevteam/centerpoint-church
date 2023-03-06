@@ -29,6 +29,11 @@ export default {
     ],
   },
 
+  env: {
+    STORYBLOK_API_KEY: process.env.STORYBLOK_API_KEY,
+    IS_PREVIEW: process.env.IS_PREVIEW,
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ["~/assets/css/main.css"],
 
@@ -47,13 +52,10 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     "@nuxtjs/tailwindcss",
-    [
-      "@storyblok/nuxt-2/module",
-      { accessToken: "CfwYlM9BW7QfUulSWhFrGQtt", apiOptions: { region: "us" } },
-    ],
   ],
 
   generate: {
+    cache: false,
     concurrency: 25,
     fallback: true,
     crawler: false,
@@ -70,14 +72,14 @@ export default {
 
       const getRoutes = async (ignoreFiles) => {
         axios
-          .get(`https://api.storyblok.com/v2/cdn/spaces/me?token=${token}`)
+          .get(`https://api-us.storyblok.com/v2/cdn/spaces/me?token=${token}`)
           .then((space_res) => {
             // timestamp of latest publish
             cacheVersion = space_res.data.space.version;
             // Call for all Links using the Links API: https://www.storyblok.com/docs/Delivery-Api/Links
             axios
               .get(
-                `https://api.storyblok.com/v2/cdn/links?token=${token}&version=${version}&cv=${cacheVersion}`
+                `https://api-us.storyblok.com/v2/cdn/links?token=${token}&version=${version}&cv=${cacheVersion}`
               )
               .then((res) => {
                 Object.keys(res.data.links).forEach((key) => {
@@ -109,7 +111,18 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/composition-api/module",
+    [
+      "@storyblok/nuxt-2/module",
+      {
+        accessToken: process.env.STORYBLOK_API_KEY,
+        apiOptions: { region: "us" },
+      },
+    ],
   ],
+
+  axios: {
+    baseUrl: "/",
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

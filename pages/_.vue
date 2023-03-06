@@ -28,9 +28,10 @@ export default {
         version: this.version,
       });
       const globalRes = await storyblokApi.get("cdn/stories/global", {
-        version: "draft",
+        version: this.version,
       });
       this.$store.commit("global/setGlobals", globalRes.data.story.content);
+      this.$store.commit("global/setLoaded", true);
       this.story = data.story;
     }
   },
