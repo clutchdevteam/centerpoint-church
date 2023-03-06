@@ -1,10 +1,12 @@
+const axios = require("axios");
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: "static",
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "centerpoint-church",
+    title: "Centerpoint Church | Brunswick, GA",
     htmlAttrs: {
       lang: "en",
     },
@@ -51,18 +53,63 @@ export default {
     ],
   ],
 
+  generate: {
+    concurrency: 25,
+    fallback: true,
+    crawler: false,
+    routes: function (callback) {
+      const token = process.env.STORYBLOK_API_KEY;
+
+      const version = process.env.IS_PREVIEW ? "draft" : "published";
+      let cacheVersion = 0;
+
+      const ignoreFiles = ["home", "global"];
+
+      const routes = ["/"];
+      debugger;
+
+      const getRoutes = async (ignoreFiles) => {
+        axios
+          .get(`https://api.storyblok.com/v2/cdn/spaces/me?token=${token}`)
+          .then((space_res) => {
+            // timestamp of latest publish
+            cacheVersion = space_res.data.space.version;
+            // Call for all Links using the Links API: https://www.storyblok.com/docs/Delivery-Api/Links
+            axios
+              .get(
+                `https://api.storyblok.com/v2/cdn/links?token=${token}&version=${version}&cv=${cacheVersion}`
+              )
+              .then((res) => {
+                Object.keys(res.data.links).forEach((key) => {
+                  if (!ignoreFiles.includes(res.data.links[key].slug)) {
+                    if (
+                      !(
+                        res.data.links[key].is_folder &&
+                        !res.data.links[key].is_startpage
+                      )
+                    ) {
+                      routes.push("/" + res.data.links[key].slug);
+                    }
+                  }
+                });
+
+                callback(null, routes);
+              });
+          });
+      };
+
+      getRoutes(ignoreFiles);
+
+      return routes;
+    },
+  },
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/composition-api/module",
   ],
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: "/",
-  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
