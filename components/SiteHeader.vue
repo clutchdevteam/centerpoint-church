@@ -101,7 +101,12 @@
       </header>
 
       <a href="/" class="absolute text-white flex right-6 lg:right-0 mt-3">
-        <BaseIcon class="h-6 w-6 mr-3" file="chat-icon" fill="none" />
+        <BaseIcon
+          class="h-6 w-6 mr-3"
+          file="chat-icon"
+          fill="none"
+          alt="a chat bubble icon"
+        />
         Need to talk
       </a>
     </div>

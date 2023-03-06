@@ -68,7 +68,6 @@ export default {
       const ignoreFiles = ["home", "global"];
 
       const routes = ["/"];
-      debugger;
 
       const getRoutes = async (ignoreFiles) => {
         axios
