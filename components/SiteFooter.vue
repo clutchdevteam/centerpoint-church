@@ -8,13 +8,13 @@
           class="flex flex-col justify-center items-center lg:items-start lg:justify-start"
         >
           <img
-            v-if="logo"
+            v-show="logo && logo?.filename"
             class="mb-4"
-            :src="logo.filename"
+            :src="logo?.filename"
             alt="Centerpoint Church logo"
           />
 
-          <a href="tel:912-275-7722">
+          <a href="tel:+912-275-7722">
             <BaseIcon
               class="inline mr-2 h-6 w-6 text-secondary"
               file="phone-icon"
