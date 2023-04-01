@@ -1,7 +1,7 @@
 <template>
   <section
     class="title-wrapper"
-    :style="`background: url(${block.backgroundImage.filename}) center center no-repeat; background-size: cover;`"
+    :style="`background: url(${backgroundImage}) center center no-repeat; background-size: cover;`"
   >
     <div class="background-overlay" />
     <div class="text-center z-10">
@@ -26,6 +26,11 @@ export default {
     block: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    backgroundImage() {
+      return this.block?.backgroundImage?.filename ?? "";
     },
   },
 };

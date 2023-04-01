@@ -13,25 +13,25 @@ export default {
   },
   computed: {
     ...mapState("global", ["loaded"]),
-    version() {
-      return this.$nuxt.context.query._storyblok || this.$nuxt.context.isDev
-        ? "draft"
-        : "published";
-    },
   },
   async fetch() {
-    if (!this.loaded) {
-      const fullSlug = this.$route.path === "/" ? "home" : this.$route.path;
+    const fullSlug = this.$route.path === "/" ? "home" : this.$route.path;
+    const version = process.env.IS_PREVIEW ? "draft" : "published";
 
-      const storyblokApi = useStoryblokApi();
-      const { data } = await storyblokApi.get(`cdn/stories/${fullSlug}`, {
-        version: this.version,
-      });
+    const storyblokApi = useStoryblokApi();
+    const { data } = await storyblokApi.get(`cdn/stories/${fullSlug}`, {
+      version: version,
+    });
+    this.story = data.story;
+    if (!this.loaded) {
       const globalRes = await storyblokApi.get("cdn/stories/global", {
-        version: "draft",
+        version: version,
       });
-      this.$store.commit("global/setGlobals", globalRes.data.story.content);
-      this.story = data.story;
+      await this.$store.commit(
+        "global/setGlobals",
+        globalRes.data.story.content
+      );
+      await this.$store.commit("global/setLoaded", true);
     }
   },
   mounted() {

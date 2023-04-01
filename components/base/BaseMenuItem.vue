@@ -35,7 +35,7 @@
     </button>
 
     <transition name="submenu" appear>
-      <ul v-show="isOpen" @keydown.esc.stop="closeMenu" :id="submenuId">
+      <ul v-if="isOpen" @keydown.esc.stop="closeMenu" :id="submenuId">
         <li v-for="(menu, index) in menu.menu" :key="index">
           <BaseMenu :menu="menu" />
         </li>

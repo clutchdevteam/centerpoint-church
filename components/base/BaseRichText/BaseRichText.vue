@@ -71,15 +71,9 @@ h6 {
   @apply text-lg font-normal leading-tight;
 }
 
-p,
-li,
-ol {
-  @apply opacity-75;
-}
-
 ul,
 ol {
-  @apply ml-5 opacity-100;
+  @apply ml-5;
 }
 
 ul {
@@ -104,6 +98,10 @@ a {
 
 img {
   @apply w-full lg:w-3/4 mx-auto;
+}
+
+b {
+  @apply text-primary;
 }
 
 @screen md {
