@@ -17,17 +17,20 @@ export default {
 p,
 ul,
 ol,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 blockquote,
 code,
 .rich-text-image-wrapper,
 hr {
   @apply mb-6 lg:mb-12 leading-relaxed;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply mb-3 text-primary;
 }
 
 ul li p,

@@ -51,8 +51,6 @@ export default {
 .background-image {
   position: absolute;
   object-fit: cover;
-  height: 100%;
-  width: auto;
   z-index: -3;
   left: 0;
   top: 0;

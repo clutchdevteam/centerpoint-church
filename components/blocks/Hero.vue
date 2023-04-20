@@ -23,7 +23,7 @@
         </div>
         <p class="md:w-1/2 mb-8">{{ block.subtitle }}</p>
 
-        <div class="flex space-x-6">
+        <div class="flex space-x-6 items-center">
           <div v-for="button in block.cta[0].buttons" :key="button._uid">
             <BaseButton :link="button.link" :theme="button.theme">
               {{ button.label }}

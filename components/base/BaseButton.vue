@@ -45,7 +45,7 @@ export default {
 
 <style lang="postcss" scoped>
 .btn {
-  @apply px-4 py-2 font-display font-bold transition duration-150 ease-in-out border-2 border-transparent text-center;
+  @apply px-4 py-2 font-display font-bold transition duration-150 ease-in-out border-2 border-transparent text-center flex;
   max-width: 150px;
 
   &.btn-primary {

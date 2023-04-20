@@ -4,7 +4,7 @@
       {{ block.heading }}
     </BaseHeading>
 
-    <BaseRichText :content="block.body[0].body" />
+    <BaseRichText v-if="block.body.length" :content="block?.body[0].body" />
   </section>
 </template>
 

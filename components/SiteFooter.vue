@@ -26,7 +26,7 @@
 
         <nav>
           <ul
-            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:flex xl:space-x-10"
+            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:flex space-x-3 xl:space-x-10"
           >
             <li v-for="item in nav" :key="item._uid">
               <h3 class="text-lg text-secondary font-display font-bold mb-2">
