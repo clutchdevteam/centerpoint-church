@@ -17,7 +17,7 @@
 
         <div class="h-1 w-32 bg-accent my-4" />
 
-        <BaseRichText :content="block.rich_text_area" />
+        <BaseRichText class="xl:w-3/4" :content="block.rich_text_area" />
 
         <template v-if="block.link.length">
           <BaseLink

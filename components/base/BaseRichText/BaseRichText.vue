@@ -21,7 +21,7 @@ blockquote,
 code,
 .rich-text-image-wrapper,
 hr {
-  @apply mb-6 lg:mb-12 leading-relaxed;
+  @apply mb-6 lg:mb-12 leading-loose;
 }
 
 h1,
@@ -48,18 +48,15 @@ h6 {
 }
 
 h1 {
-  @apply leading-tight;
-  font-size: 48px;
+  @apply leading-tight text-5xl lg:text-6xl;
 }
 
 h2 {
-  font-size: 36px;
+  @apply text-3xl lg:text-5xl;
 }
 
 h3 {
-  @apply font-semibold;
-
-  font-size: 20px;
+  @apply font-semibold text-2xl lg:text-3xl;
 }
 
 h4 {
@@ -67,11 +64,11 @@ h4 {
 }
 
 h5 {
-  @apply text-xl font-semibold;
+  @apply text-lg lg:text-xl;
 }
 
 h6 {
-  @apply text-lg font-normal leading-tight;
+  @apply font-semibold leading-tight;
 }
 
 ul,
@@ -96,7 +93,7 @@ blockquote p {
 }
 
 a {
-  @apply underline font-bold;
+  @apply text-primary underline;
 }
 
 img {

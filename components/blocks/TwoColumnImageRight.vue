@@ -2,7 +2,7 @@
   <section class="my-14 lg:my-32 base-wrapper">
     <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
       <div>
-        <p class="text-primary text-sm mt-7">
+        <p v-if="block.section_title" class="text-primary text-sm mt-7">
           {{ block.section_title }}
         </p>
 
@@ -12,7 +12,7 @@
 
         <div class="h-1 w-32 bg-accent my-4" />
 
-        <BaseRichText :content="block.rich_text_area" />
+        <BaseRichText class="xl:w-3/4" :content="block.rich_text_area" />
 
         <template v-if="block.link.length">
           <BaseLink

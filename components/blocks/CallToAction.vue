@@ -2,7 +2,7 @@
   <section class="py-12 lg:py-16" :class="bgTheme(block)">
     <div class="base-wrapper">
       <div class="flex flex-col items-center">
-        <p class="text-primary">{{ block.title }}</p>
+        <p v-if="block.title" class="text-primary">{{ block.title }}</p>
 
         <BaseHeading size="h2" class="text-center my-2">
           {{ block.heading }}
@@ -12,20 +12,22 @@
 
         <p class="text-center text-lg lg:w-3/5 my-2">{{ block.text_area }}</p>
 
-        <div
-          v-for="button in block.button"
-          :key="button._uid"
-          class="mt-4 lg:mt-6"
-        >
-          <BaseLink
-            :class="btnTheme(block)"
-            v-if="button.link"
-            :link="button.link"
-            :id="button.label.toLowerCase().replace(' ', '-')"
+        <template v-if="block.button.length">
+          <div
+            v-for="button in block.button"
+            :key="button._uid"
+            class="mt-4 lg:mt-6"
           >
-            {{ button.label }}
-          </BaseLink>
-        </div>
+            <BaseLink
+              :class="btnTheme(block)"
+              v-if="button.link"
+              :link="button.link"
+              :id="button.label.toLowerCase().replace(' ', '-')"
+            >
+              {{ button.label }}
+            </BaseLink>
+          </div>
+        </template>
       </div>
     </div>
   </section>

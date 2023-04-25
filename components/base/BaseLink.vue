@@ -5,10 +5,10 @@
   >
     <span><slot /> </span>
     <BaseIcon
+      v-if="show_arrow"
       class="inline ml-3 mb-1 w-4 h-4"
       file="arrow-right"
       alt="small right arrow"
-      v-if="show_arrow"
     />
   </nuxt-link>
 

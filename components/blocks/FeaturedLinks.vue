@@ -1,7 +1,7 @@
 <template>
   <section class="bg-gray py-12 lg:py-16">
     <div class="base-wrapper">
-      <p class="text-primary text-sm">
+      <p v-if="block.title" class="text-primary text-sm">
         {{ block.title }}
       </p>
 
@@ -10,69 +10,56 @@
       </BaseHeading>
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <div class="relative">
-          <div class="flex place-items-end">
-            <div class="absolute z-30 flex flex-col space-y-4 p-6 xl:p-12">
-              <div>
-                <p class="text-white text-3xl lg:text-4xl font-semibold">
-                  {{ block.large_image_with_link[0].title }}
-                </p>
-                <p class="text-white text-lg lg:text-xl">
-                  {{ block.large_image_with_link[0].day_time }}
-                </p>
-              </div>
-              <div
-                v-for="button in block.large_image_with_link[0].button"
-                :key="button._uid"
-              >
-                <BaseButton
-                  :link="button.link"
-                  :theme="button.theme"
-                  class="text-white"
-                  >{{ button.label }}
-
-                  <template v-if="button.helper" #helper>
-                    {{ button.helper }}
-                  </template></BaseButton
-                >
-              </div>
+          <BaseLink :link="block.large_image_with_link[0].link">
+            <div
+              class="z-10 absolute h-full w-full flex flex-col p-6 xl:p-12 justify-end"
+            >
+              <p class="text-3xl lg:text-4xl text-white font-semibold">
+                {{ block.large_image_with_link[0].title }}
+              </p>
+              <p class="text-white opacity-75">
+                {{ block.large_image_with_link[0].day_time }}
+              </p>
             </div>
             <div
-              class="absolute inset-0 w-full h-full z-20 bg-primary bg-opacity-80"
+              class="absolute inset-0 w-full h-full z-0 bg-primary bg-opacity-80"
             ></div>
             <img
-              :src="block.large_image_with_link[0].image.filename"
-              alt="image"
-              class="w-full h-auto z-10"
+              class="w-full h-auto"
+              :src="block?.large_image_with_link[0]?.image.filename"
+              :alt="block?.large_image_with_link[0]?.image.filename"
             />
-          </div>
+          </BaseLink>
         </div>
-        <div class="grid gap-8 lg:gap-12">
+        <div class="grid gap-8 lg:gap-12 h-full">
           <div
             v-for="(item, index) in block.small_image"
             :key="item._uid"
-            class="relative"
+            class="relative z-10"
           >
-            <div class="absolute inset-0 w-full h-full z-30 p-6 lg:p-12">
-              <div class="flex h-full">
-                <div class="place-self-center">
-                  <div class="text-white font-semibold text-2xl lg:text-3xl ">
-                    {{ item.title }}
-                  </div>
-                  <div class="text-white text-lg lg:text-xl">
-                    {{ item.day_time }}
+            <BaseLink :link="item.link">
+              <div class="inset-0 w-full h-full p-6 lg:p-12">
+                <div class="flex h-full">
+                  <div class="place-self-center">
+                    <div class="text-white font-semibold text-2xl lg:text-3xl">
+                      {{ item?.title }}
+                    </div>
+                    <div class="text-white text-lg lg:text-xl">
+                      {{ item?.day_time }}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="absolute inset-0 w-full h-full z-20 bg-opacity-80"
-              :class="overlayColor(index)"
-            ></div>
-            <img
-              :src="item.image.filename"
-              alt="image"
-              class="w-full h-auto z-20"
-            />
+              <div
+                class="absolute inset-0 w-full h-full z-[-1] bg-opacity-80"
+                :class="overlayColor(index)"
+              ></div>
+              <img
+                :src="item?.image.filename"
+                alt="image"
+                class="absolute inset-0 h-full w-full z-[-2] object-cover object-center"
+              />
+            </BaseLink>
           </div>
         </div>
       </div>
@@ -83,11 +70,13 @@
 <script>
 import BaseHeading from "@/components/base/BaseHeading.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
+import BaseLink from "@/components/base/BaseLink.vue";
 
 export default {
   components: {
     BaseHeading,
     BaseButton,
+    BaseLink,
   },
   props: {
     block: {
@@ -112,5 +101,3 @@ export default {
   },
 };
 </script>
-
-<style lang="postcss" scoped></style>
