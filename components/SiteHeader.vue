@@ -12,14 +12,18 @@
             <li v-for="item in nav" :key="item._uid">
               <BaseMenuItem class="nav-submenu" v-if="item.menu" :menu="item" />
 
-              <BaseLink
+              <div
                 v-else
-                :link="item.link"
-                class="block"
-                :id="item.label.toLowerCase().replace(' ', '-')"
+                class="nav-submenu flex items-center justify-between w-full whitespace-nowrap"
               >
-                {{ item.label }}
-              </BaseLink>
+                <BaseLink
+                  class="block"
+                  :link="item.link"
+                  :id="item.label.toLowerCase().replace(' ', '-')"
+                >
+                  {{ item.label }}
+                </BaseLink>
+              </div>
             </li>
           </ul>
         </nav>
@@ -81,14 +85,14 @@
                             :menu="item"
                           />
 
-                          <BaseLink
-                            v-else
-                            :link="item.link"
-                            class="block"
-                            :id="item.label.toLowerCase().replace(' ', '-')"
-                          >
-                            {{ item.label }}
-                          </BaseLink>
+                          <div v-else class="nav-submenu">
+                            <BaseLink
+                              :link="item.link"
+                              :id="item.label.toLowerCase().replace(' ', '-')"
+                            >
+                              {{ item.label }}
+                            </BaseLink>
+                          </div>
                         </li>
                       </ul>
                     </nav>
@@ -173,7 +177,8 @@ export default {
 .desktop ul li {
   @apply relative;
 
-  & .nav-submenu button {
+  & .nav-submenu button,
+  .nav-submenu a {
     @apply px-4 py-2 border-l text-sm border-r border-gray;
   }
 }
