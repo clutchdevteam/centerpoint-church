@@ -83,7 +83,7 @@
         />
 
         <div class="p-6 mt-12">
-          <BaseHeading size="h2">
+          <BaseHeading size="h3">
             {{ quicklink.title }}
           </BaseHeading>
 

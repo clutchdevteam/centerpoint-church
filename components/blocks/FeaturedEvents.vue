@@ -52,7 +52,7 @@ export default {
   async fetch() {
     const storyblokApi = useStoryblokApi();
 
-    this.getEvents(storyblokApi);
+    await this.getEvents(storyblokApi);
   },
   methods: {
     async getEvents(api) {
@@ -64,21 +64,23 @@ export default {
 
       // write a function that takes in an array of slugs and returns an array of stories and ensures they load on the page
 
-      const { data } = await api.get(`cdn/stories`, {
-        version: this.version,
-        by_slugs: eventSlugs,
-      });
-
-      this.events = await data.stories.map((event) => {
-        return {
-          id: event.uuid,
-          title: event.name,
-          date: event.content?.date,
-          time: event.content?.time,
-          image: event.content?.image.filename,
-          link: event.full_slug,
-        };
-      });
+      await api
+        .get(`cdn/stories`, {
+          version: this.version,
+          by_slugs: eventSlugs,
+        })
+        .then((res) =>
+          res.data.stories.map((event) => {
+            this.events.push({
+              id: event.uuid,
+              title: event.name,
+              date: event.content?.date,
+              time: event.content?.time,
+              image: event.content?.image.filename,
+              link: event.full_slug,
+            });
+          })
+        );
 
       this.loading = false;
     },

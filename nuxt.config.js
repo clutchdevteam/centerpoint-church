@@ -40,7 +40,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "~/plugins/wicg-inert.client.js",
-    "~/plugins/rich-text-renderer.js",
     "~/plugins/formRoute.js",
     "~/plugins/components.js",
     "~/plugins/v-calendar.client.js",

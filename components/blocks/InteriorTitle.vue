@@ -39,7 +39,7 @@ export default {
 <style>
 .title-wrapper {
   @apply relative overflow-hidden flex items-center justify-center w-full;
-  min-height: 200px;
+  min-height: 150px;
 }
 
 .background-overlay {
