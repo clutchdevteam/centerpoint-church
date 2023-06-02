@@ -22,6 +22,11 @@
             />
             (912) 275-7722
           </a>
+
+          <address class="mt-2 opacity-75">
+            578 Palisade Dr <br />
+            Brunswick, GA 31523
+          </address>
         </div>
 
         <nav>
