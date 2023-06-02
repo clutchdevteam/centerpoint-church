@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Page from "~/components/Page.vue";
 import InteriorPage from "~/components/InteriorPage.vue";
+import Locations from "~/components/Locations.vue";
 import EventPage from "~/components/EventPage.vue";
 import Hero from "~/components/blocks/Hero.vue";
 import TwoColumnImageRight from "~/components/blocks/TwoColumnImageRight.vue";
@@ -14,6 +15,7 @@ import PersonHighlight from "~/components/blocks/PersonHighlight.vue";
 
 Vue.component("page", Page);
 Vue.component("InteriorPage", InteriorPage);
+Vue.component("Locations", Locations);
 Vue.component("EventPage", EventPage);
 Vue.component("Hero", Hero);
 Vue.component("TwoColumnImageRight", TwoColumnImageRight);
