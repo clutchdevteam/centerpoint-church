@@ -1,5 +1,5 @@
 <template>
-  <section class="max-w-2xl mx-auto my-32">
+  <section class="max-w-2xl mx-auto my-32 base-wrapper">
     <BaseHeading size="h2" class="mb-6 lg:mb-12">
       {{ block.heading }}
     </BaseHeading>

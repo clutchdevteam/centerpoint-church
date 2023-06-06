@@ -12,6 +12,7 @@ import FeaturedLinks from "~/components/blocks/FeaturedLinks.vue";
 import CallToAction from "~/components/blocks/CallToAction";
 import TwoColumnImageLeft from "~/components/blocks/TwoColumnImageLeft.vue";
 import PersonHighlight from "~/components/blocks/PersonHighlight.vue";
+import VideoBlock from '~/components/blocks/VideoBlock.vue'
 
 Vue.component("page", Page);
 Vue.component("InteriorPage", InteriorPage);
@@ -26,3 +27,4 @@ Vue.component("CallToAction", CallToAction);
 Vue.component("TwoColumnImageLeft", TwoColumnImageLeft);
 Vue.component("FeaturedEvents", FeaturedEvents);
 Vue.component("PersonHighlight", PersonHighlight);
+Vue.component("VideoBlock", VideoBlock);
