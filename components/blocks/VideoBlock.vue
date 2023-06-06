@@ -1,5 +1,5 @@
 <template>
-  <section class="py-12 lg:py-16">
+  <section class="py-12 lg:py-16 max-w-3xl mx-auto">
     <div class="base-wrapper">
       <BaseHeading v-if="block.title" size="h2" class="text-center mb-4">{{ block.title }}</BaseHeading>
 
