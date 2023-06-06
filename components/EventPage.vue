@@ -1,6 +1,6 @@
 <template>
-  <div v-editable="blok" class="w-full">
-    <InteriorTitle :block="blok.title[0]" />
+  <div v-editable="blok" v-if="blok" class="w-full">
+    <InteriorTitle v-if="blok.title" :block="blok.title[0]" />
 
     <section class="base-wrapper my-12 xl:my-24 mx-my-12">
       <p class="text-center text-primary font-semibold text-xl mb-6">
@@ -31,13 +31,13 @@
           v-if="blok.content[0]"
           :content="blok.content[0].body[0].body"
         />
-        <nuxt-link class="text-primary underline text-lg" to="/events">
+        <!-- <nuxt-link class="text-primary underline text-lg" to="/events">
           <BaseIcon
             class="w-4 h-4 inline mr-2 transform rotate-180"
             file="arrow-right"
           />
           Back to Events
-        </nuxt-link>
+        </nuxt-link> -->
       </div>
     </section>
   </div>
