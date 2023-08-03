@@ -2,10 +2,41 @@
   <div class="w-full">
     <StoryblokComponent v-if="story" :blok="story.content" />
 
-    <section
-      class="base-wrapper my-24 grid md:grid-cols-2 xl:grid-cols-4 gap-12"
-    >
-      <EventCard v-for="sermon in sermons" :key="sermon.id" :event="sermon" />
+    <section class="base-wrapper my-24">
+      <div class="flex w-full justify-end">
+        <label>
+          <span class="mr-3">Filter:</span>
+          <select
+            class="p-2 border rounded border-black border-opacity-20"
+            v-model="filter"
+          >
+            <option value="" selected>All</option>
+            <option v-for="book in booksOfBible" :key="book" :value="book">
+              {{ book }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <div
+        v-if="filteredSermons.length === 0"
+        class="text-center flex flex-col justify-center space-y-3"
+      >
+        <BaseHeading size="h2">Uh oh!</BaseHeading>
+
+        <p class="text-xl">Looks like we couldn't find anything.</p>
+
+        <p class="opacity-50 italic">
+          "... Keep on seeking, and you will find ..." - Matthew 7:7
+        </p>
+      </div>
+      <div v-else class="grid md:grid-cols-2 xl:grid-cols-4 gap-12">
+        <EventCard
+          v-for="sermon in filteredSermons"
+          :key="sermon.id"
+          :event="sermon"
+        />
+      </div>
     </section>
   </div>
 </template>
@@ -27,12 +58,92 @@ export default {
     return {
       story: { content: {} },
       sermons: [],
+      filter: "",
+      booksOfBible: [
+        "Genesis",
+        "Exodus",
+        "Leviticus",
+        "Numbers",
+        "Deuteronomy",
+        "Joshua",
+        "Judges",
+        "Ruth",
+        "1 Samuel",
+        "2 Samuel",
+        "1 Kings",
+        "2 Kings",
+        "1 Chronicles",
+        "2 Chronicles",
+        "Ezra",
+        "Nehemiah",
+        "Esther",
+        "Job",
+        "Psalms",
+        "Proverbs",
+        "Ecclesiastes",
+        "Song of Solomon",
+        "Isaiah",
+        "Jeremiah",
+        "Lamentations",
+        "Ezekiel",
+        "Daniel",
+        "Hosea",
+        "Joel",
+        "Amos",
+        "Obadiah",
+        "Jonah",
+        "Micah",
+        "Nahum",
+        "Habakkuk",
+        "Zephaniah",
+        "Haggai",
+        "Zechariah",
+        "Malachi",
+        "Matthew",
+        "Mark",
+        "Luke",
+        "John",
+        "Acts",
+        "Romans",
+        "1 Corinthians",
+        "2 Corinthians",
+        "Galatians",
+        "Ephesians",
+        "Philippians",
+        "Colossians",
+        "1 Thessalonians",
+        "2 Thessalonians",
+        "1 Timothy",
+        "2 Timothy",
+        "Titus",
+        "Philemon",
+        "Hebrews",
+        "James",
+        "1 Peter",
+        "2 Peter",
+        "1 John",
+        "2 John",
+        "3 John",
+        "Jude",
+        "Revelation",
+      ],
     };
   },
   computed: {
     ...mapState("global", ["loaded"]),
     version() {
       return process.env.IS_PREVIEW ? "draft" : "published";
+    },
+    filteredSermons() {
+      let sermons = this.sermons;
+
+      if (this.filter.length > 0) {
+        sermons = sermons.filter((sermon) => {
+          return sermon.content.bookOfBible === this.filter;
+        });
+      }
+
+      return sermons;
     },
   },
   async fetch() {

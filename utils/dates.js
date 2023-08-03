@@ -20,4 +20,11 @@ const formatDate = (date) => {
   } ${rawDate.getDate()}, ${rawDate.getFullYear()}`;
 };
 
-export { formatDate };
+const formatDateWithoutTime = (date) => {
+  const rawDate = new Date(date);
+  return `${rawDate.getFullYear()}-${
+    rawDate.getMonth() + 1
+  }-${rawDate.getDate()}`;
+};
+
+export { formatDate, formatDateWithoutTime };

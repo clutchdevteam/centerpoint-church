@@ -60,16 +60,12 @@ export default {
   },
   methods: {
     formatDate(date) {
-      // include the time
-      const options = {
+      // const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(date).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-      };
-      // const options = { year: "numeric", month: "long", day: "numeric" };
-      return new Date(date).toLocaleDateString("en-US", options);
+      });
     },
   },
 };
