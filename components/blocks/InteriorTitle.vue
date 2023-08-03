@@ -43,7 +43,7 @@ export default {
 }
 
 .background-overlay {
-  @apply bg-black inset-0 absolute opacity-90;
+  @apply bg-black inset-0 absolute opacity-50;
   height: 100%;
   z-index: 0;
 }

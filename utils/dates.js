@@ -15,7 +15,6 @@ const months = [
 
 const formatDate = (date) => {
   const rawDate = new Date(date);
-  console.log(rawDate.getDate());
   return `${
     months[rawDate.getMonth()]
   } ${rawDate.getDate()}, ${rawDate.getFullYear()}`;

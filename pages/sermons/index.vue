@@ -5,7 +5,7 @@
     <section
       class="base-wrapper my-24 grid md:grid-cols-2 xl:grid-cols-4 gap-12"
     >
-      <EventCard v-for="event in events" :key="event.id" :event="event" />
+      <EventCard v-for="sermon in sermons" :key="sermon.id" :event="sermon" />
     </section>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       story: { content: {} },
-      events: [],
+      sermons: [],
     };
   },
   computed: {
@@ -43,7 +43,7 @@ export default {
       version: this.version,
     });
 
-    this.getEvents(storyblokApi);
+    this.getSermons(storyblokApi);
 
     const globalRes = await storyblokApi.get("cdn/stories/global", {
       version: this.version,
@@ -55,13 +55,13 @@ export default {
     useStoryblokBridge(this.story.id, (newStory) => (this.story = newStory));
   },
   methods: {
-    async getEvents(api) {
-      const events = await api.get(`cdn/stories`, {
+    async getSermons(api) {
+      const sermons = await api.get(`cdn/stories`, {
         version: this.version,
-        starts_with: "events/",
+        starts_with: "sermons/",
       });
 
-      this.events = events.data.stories
+      this.sermons = sermons.data.stories
         .filter((story) => !story.is_startpage)
         .sort((a, b) => {
           return new Date(b.content.date) - new Date(a.content.date);
