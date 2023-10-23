@@ -24,7 +24,7 @@
           </a>
 
           <address class="mt-2 opacity-75">
-            578 Palisade Dr <br />
+            573 Palisade Dr <br />
             Brunswick, GA 31523
           </address>
         </div>
