@@ -18,11 +18,13 @@
         :key="index"
       >
         <div class="w-full h-[117px] overflow-hidden">
-          <img :src="event.image" />
+          <img class="w-full h-[117px] object-cover" :src="event.image" />
         </div>
         <div class="w-full p-4">
           <BaseHeading size="h3">{{ event.title }}</BaseHeading>
-          <p class="text-secondary text-sm mb-4">{{ event.date }}</p>
+          <p class="text-secondary text-sm mb-4">
+            {{ formatDate(event.date) }}
+          </p>
           <a class="text-primary underline" :href="event.link">Read More</a>
         </div>
       </article>
@@ -83,6 +85,10 @@ export default {
         );
 
       this.loading = false;
+    },
+    formatDate(date) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(date).toLocaleDateString(undefined, options);
     },
   },
 };

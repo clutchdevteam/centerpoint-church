@@ -183,13 +183,13 @@ export default {
   }
 }
 
-.desktop ul li .nav-submenu ul {
+/* .desktop ul li .nav-submenu ul {
   @apply absolute bg-white shadow-lg min-w-[150px] w-full;
 
   & li div a {
     @apply block px-4 py-3 text-sm;
   }
-}
+} */
 
 .mobile div div nav ul li .nav-submenu ul li {
   @apply py-2 pl-3;

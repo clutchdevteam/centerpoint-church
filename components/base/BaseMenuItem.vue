@@ -35,7 +35,12 @@
     </button>
 
     <transition name="submenu" appear>
-      <ul v-if="isOpen" @keydown.esc.stop="closeMenu" :id="submenuId">
+      <ul
+        v-if="isOpen"
+        @keydown.esc.stop="closeMenu"
+        class="submenu"
+        :id="submenuId"
+      >
         <li v-for="(menu, index) in menu.menu" :key="index">
           <BaseMenu :menu="menu" />
         </li>
@@ -148,5 +153,13 @@ export default {
 .submenu-leave-to {
   opacity: 0;
   transform: translateY(-20px) !important;
+}
+
+.submenu {
+  @apply absolute bg-white shadow-lg min-w-[150px] w-full;
+
+  & li div a {
+    @apply block px-4 py-3 text-sm;
+  }
 }
 </style>
