@@ -19,7 +19,7 @@
       <template v-else>
         <div v-if="blok.image">
           <img
-            class="video mb-12"
+            class="mb-12 max-w-2xl mx-auto"
             :src="blok.image.filename"
             :alt="blok.image.filename"
           />
