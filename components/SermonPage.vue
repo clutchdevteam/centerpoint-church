@@ -25,20 +25,6 @@
           />
         </div>
       </template>
-
-      <div class="max-w-2xl mx-auto">
-        <BaseRichText
-          v-if="blok.content[0]"
-          :content="blok.content[0].body[0].body"
-        />
-        <!-- <nuxt-link class="text-primary underline text-lg" to="/events">
-          <BaseIcon
-            class="w-4 h-4 inline mr-2 transform rotate-180"
-            file="arrow-right"
-          />
-          Back to Events
-        </nuxt-link> -->
-      </div>
     </section>
   </div>
 </template>
