@@ -6,11 +6,13 @@
           {{ block.section_title }}
         </p>
 
-        <BaseHeading v-if="block.heading_text" size="h2">
-          {{ block.heading_text }}
-        </BaseHeading>
+        <template v-if="block.heading_text">
+          <BaseHeading size="h2">
+            {{ block.heading_text }}
+          </BaseHeading>
 
-        <div class="h-1 w-32 bg-accent my-4" />
+          <div class="h-1 w-32 bg-accent my-4" />
+        </template>
 
         <BaseRichText class="xl:w-3/4" :content="block.rich_text_area" />
 
