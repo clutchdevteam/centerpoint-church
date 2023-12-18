@@ -3,7 +3,7 @@
     <StoryblokComponent v-if="story" :blok="story.content" />
 
     <section class="base-wrapper my-24">
-      <div class="flex w-full justify-end">
+      <div class="flex w-full justify-end mb-4">
         <label>
           <span class="mr-3">Filter:</span>
           <select

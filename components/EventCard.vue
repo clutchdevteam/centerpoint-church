@@ -4,7 +4,7 @@
   >
     <a :href="$formRoute({ url: event.full_slug })">
       <div class="relative h-[120px] overflow-hidden">
-        <div class="absolute h-full w-full bg-secondary opacity-75" />
+        <!-- <div class="absolute h-full w-full bg-secondary opacity-75" /> -->
         <img
           class="w-full h-[120px] object-cover"
           :src="event.content.image.filename"
