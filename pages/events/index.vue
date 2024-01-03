@@ -3,6 +3,7 @@
     <StoryblokComponent v-if="story" :blok="story.content" />
 
     <section
+      v-if="events.length > 0"
       class="base-wrapper my-24 grid md:grid-cols-2 xl:grid-cols-4 gap-12"
     >
       <EventCard v-for="event in events" :key="event.id" :event="event" />
