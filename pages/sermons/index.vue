@@ -10,7 +10,7 @@
             class="p-2 border rounded border-black border-opacity-20"
             v-model="filter"
           >
-            <option value="" selected>All</option>
+            <option :value="null" selected>All</option>
             <option v-for="book in booksOfBible" :key="book" :value="book">
               {{ book }}
             </option>
@@ -58,7 +58,7 @@ export default {
     return {
       story: { content: {} },
       sermons: [],
-      filter: "",
+      filter: null,
       booksOfBible: [
         "Genesis",
         "Exodus",
@@ -137,7 +137,7 @@ export default {
     filteredSermons() {
       let sermons = this.sermons;
 
-      if (this.filter.length > 0) {
+      if (this.filter) {
         sermons = sermons.filter((sermon) => {
           return sermon.content.bookOfBible === this.filter;
         });
@@ -155,6 +155,7 @@ export default {
     });
 
     this.getSermons(storyblokApi);
+    console.log("here");
 
     const globalRes = await storyblokApi.get("cdn/stories/global", {
       version: this.version,
