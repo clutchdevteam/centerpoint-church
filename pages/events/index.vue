@@ -64,6 +64,7 @@ export default {
 
       this.events = events.data.stories
         .filter((story) => !story.is_startpage)
+        .filter((story) => story.published_at !== null)
         .sort((a, b) => {
           return new Date(b.content.date) - new Date(a.content.date);
         });

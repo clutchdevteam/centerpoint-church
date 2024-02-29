@@ -20,8 +20,8 @@
         <div v-if="blok.image">
           <img
             class="mb-12 max-w-2xl mx-auto"
-            :src="blok.image.filename"
-            :alt="blok.image.filename"
+            :src="blok.image?.filename"
+            :alt="blok.image?.filename"
           />
         </div>
       </template>

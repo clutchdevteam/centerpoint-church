@@ -7,7 +7,7 @@
         <!-- <div class="absolute h-full w-full bg-secondary opacity-75" /> -->
         <img
           class="w-full h-[120px] object-cover"
-          :src="event.content.image.filename"
+          :src="event.content.image?.filename"
           alt=""
         />
       </div>
