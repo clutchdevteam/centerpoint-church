@@ -13,7 +13,12 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" },
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "Centerpoint Church in Brunswick, GA - Join us for worship, community, and spiritual growth.",
+      },
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [
@@ -23,8 +28,17 @@ export default {
         href: "/favicon.ico",
       },
       {
+        rel: "preconnect",
+        href: "https://fonts.googleapis.com",
+      },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossorigin: "",
+      },
+      {
         rel: "stylesheet",
-        href: '<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">',
+        href: "https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap",
       },
     ],
   },
@@ -59,49 +73,45 @@ export default {
     concurrency: 25,
     fallback: true,
     crawler: false,
-    routes: function (callback) {
+    routes: async function () {
       const token = process.env.STORYBLOK_API_KEY;
 
+      if (!token) {
+        console.warn("STORYBLOK_API_KEY not found, skipping route generation");
+        return ["/"];
+      }
+
       const version = process.env.IS_PREVIEW ? "draft" : "published";
-      let cacheVersion = 0;
-
       const ignoreFiles = ["home", "global"];
-
       const routes = ["/"];
 
-      const getRoutes = async (ignoreFiles) => {
-        axios
-          .get(`https://api-us.storyblok.com/v2/cdn/spaces/me?token=${token}`)
-          .then((space_res) => {
-            // timestamp of latest publish
-            cacheVersion = space_res.data.space.version;
-            // Call for all Links using the Links API: https://www.storyblok.com/docs/Delivery-Api/Links
-            axios
-              .get(
-                `https://api-us.storyblok.com/v2/cdn/links?token=${token}&version=${version}&cv=${cacheVersion}`
-              )
-              .then((res) => {
-                Object.keys(res.data.links).forEach((key) => {
-                  if (!ignoreFiles.includes(res.data.links[key].slug)) {
-                    if (
-                      !(
-                        res.data.links[key].is_folder &&
-                        !res.data.links[key].is_startpage
-                      )
-                    ) {
-                      routes.push("/" + res.data.links[key].slug);
-                    }
-                  }
-                });
+      try {
+        // Get space info for cache version
+        const spaceRes = await axios.get(
+          `https://api-us.storyblok.com/v2/cdn/spaces/me?token=${token}`
+        );
+        const cacheVersion = spaceRes.data.space.version;
 
-                callback(null, routes);
-              });
-          });
-      };
+        // Get all links
+        const linksRes = await axios.get(
+          `https://api-us.storyblok.com/v2/cdn/links?token=${token}&version=${version}&cv=${cacheVersion}`
+        );
 
-      getRoutes(ignoreFiles);
+        Object.keys(linksRes.data.links).forEach((key) => {
+          const link = linksRes.data.links[key];
+          if (!ignoreFiles.includes(link.slug)) {
+            if (!(link.is_folder && !link.is_startpage)) {
+              routes.push("/" + link.slug);
+            }
+          }
+        });
 
-      return routes;
+        console.log(`Generated ${routes.length} routes`);
+        return routes;
+      } catch (error) {
+        console.error("Error generating routes:", error.message);
+        return routes;
+      }
     },
   },
 
@@ -121,12 +131,13 @@ export default {
 
   axios: {
     baseUrl: "/",
+    timeout: 10000, // 10 second timeout
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend(config, { isClient }) {
-      if (isClient) {
+    extend(config, { isClient, isDev }) {
+      if (isClient && isDev) {
         config.devtool = "source-map";
       }
 
@@ -144,6 +155,31 @@ export default {
       config.node = {
         fs: "empty",
       };
+    },
+
+    // Optimize bundle size
+    optimization: {
+      splitChunks: {
+        chunks: "all",
+        automaticNameDelimiter: ".",
+        name: undefined,
+        cacheGroups: {
+          vendor: {
+            name: "node_vendors",
+            test: /[\\/]node_modules[\\/]/,
+            chunks: "all",
+          },
+        },
+      },
+    },
+  },
+
+  // Performance optimizations
+  render: {
+    bundleRenderer: {
+      shouldPreload: (file, type) => {
+        return ["script", "style", "font"].includes(type);
+      },
     },
   },
 };

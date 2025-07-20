@@ -18,9 +18,30 @@
         </label>
       </div>
 
+      <!-- Loading State -->
+      <div v-if="loading" class="text-center py-12">
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"
+        ></div>
+        <p class="mt-4 text-lg">Loading sermons...</p>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="text-center py-12">
+        <BaseHeading size="h2">Something went wrong</BaseHeading>
+        <p class="text-xl mt-2">Unable to load sermons at this time.</p>
+        <button
+          @click="retryLoad"
+          class="mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+        >
+          Try Again
+        </button>
+      </div>
+
+      <!-- Empty State -->
       <div
-        v-if="filteredSermons.length === 0"
-        class="text-center flex flex-col justify-center space-y-3"
+        v-else-if="filteredSermons.length === 0"
+        class="text-center flex flex-col justify-center space-y-3 py-12"
       >
         <BaseHeading size="h2">Uh oh!</BaseHeading>
 
@@ -30,6 +51,8 @@
           "... Keep on seeking, and you will find ..." - Matthew 7:7
         </p>
       </div>
+
+      <!-- Sermons Grid -->
       <div v-else class="grid md:grid-cols-2 xl:grid-cols-4 gap-12">
         <EventCard
           v-for="sermon in filteredSermons"
@@ -44,7 +67,7 @@
 <script>
 import { mapState } from "vuex";
 import { useStoryblokBridge, useStoryblokApi } from "@storyblok/nuxt-2";
-import { formatDate } from "@/utils/dates";
+import { booksOfBible } from "@/utils/bible";
 
 import BaseHeading from "@/components/base/BaseHeading.vue";
 import EventCard from "@/components/EventCard.vue";
@@ -59,74 +82,9 @@ export default {
       story: { content: {} },
       sermons: [],
       filter: null,
-      booksOfBible: [
-        "Genesis",
-        "Exodus",
-        "Leviticus",
-        "Numbers",
-        "Deuteronomy",
-        "Joshua",
-        "Judges",
-        "Ruth",
-        "1 Samuel",
-        "2 Samuel",
-        "1 Kings",
-        "2 Kings",
-        "1 Chronicles",
-        "2 Chronicles",
-        "Ezra",
-        "Nehemiah",
-        "Esther",
-        "Job",
-        "Psalms",
-        "Proverbs",
-        "Ecclesiastes",
-        "Song of Solomon",
-        "Isaiah",
-        "Jeremiah",
-        "Lamentations",
-        "Ezekiel",
-        "Daniel",
-        "Hosea",
-        "Joel",
-        "Amos",
-        "Obadiah",
-        "Jonah",
-        "Micah",
-        "Nahum",
-        "Habakkuk",
-        "Zephaniah",
-        "Haggai",
-        "Zechariah",
-        "Malachi",
-        "Matthew",
-        "Mark",
-        "Luke",
-        "John",
-        "Acts",
-        "Romans",
-        "1 Corinthians",
-        "2 Corinthians",
-        "Galatians",
-        "Ephesians",
-        "Philippians",
-        "Colossians",
-        "1 Thessalonians",
-        "2 Thessalonians",
-        "1 Timothy",
-        "2 Timothy",
-        "Titus",
-        "Philemon",
-        "Hebrews",
-        "James",
-        "1 Peter",
-        "2 Peter",
-        "1 John",
-        "2 John",
-        "3 John",
-        "Jude",
-        "Revelation",
-      ],
+      loading: false,
+      error: false,
+      booksOfBible,
     };
   },
   computed: {
@@ -147,103 +105,71 @@ export default {
     },
   },
   async fetch() {
-    const fullSlug = this.$route.path === "/" ? "home" : this.$route.path;
-
-    const storyblokApi = useStoryblokApi();
-    const { data } = await storyblokApi.get(`cdn/stories/${fullSlug}`, {
-      version: this.version,
-    });
-
-    this.getSermons(storyblokApi);
-    console.log("here");
-
-    const globalRes = await storyblokApi.get("cdn/stories/global", {
-      version: this.version,
-    });
-    this.$store.commit("global/setGlobals", globalRes.data.story.content);
-    this.story = data.story;
+    await this.loadPageData();
   },
   mounted() {
-    useStoryblokBridge(this.story.id, (newStory) => (this.story = newStory));
+    if (this.story.id) {
+      useStoryblokBridge(this.story.id, (newStory) => (this.story = newStory));
+    }
   },
   methods: {
-    async getSermons(api) {
-      const sermons = await api.get(`cdn/stories`, {
-        version: this.version,
-        starts_with: "sermons/",
-      });
+    async loadPageData() {
+      this.loading = true;
+      this.error = false;
 
-      this.sermons = sermons.data.stories
-        .filter((story) => !story.is_startpage)
-        .sort((a, b) => {
-          return new Date(b.content.date) - new Date(a.content.date);
-        });
+      try {
+        const fullSlug = this.$route.path === "/" ? "home" : this.$route.path;
+        const storyblokApi = useStoryblokApi();
+
+        // Load page story and sermons in parallel
+        const [pageData, globalData] = await Promise.all([
+          storyblokApi.get(`cdn/stories/${fullSlug}`, {
+            version: this.version,
+          }),
+          storyblokApi.get("cdn/stories/global", {
+            version: this.version,
+          }),
+        ]);
+
+        await this.getSermons(storyblokApi);
+
+        this.$store.commit("global/setGlobals", globalData.data.story.content);
+        this.story = pageData.data.story;
+      } catch (err) {
+        console.error("Error loading page data:", err);
+        this.error = true;
+      } finally {
+        this.loading = false;
+      }
     },
-    getDate(date) {
-      return formatDate(date);
+
+    async retryLoad() {
+      await this.loadPageData();
+    },
+
+    async getSermons(api) {
+      try {
+        const sermons = await api.get(`cdn/stories`, {
+          version: this.version,
+          starts_with: "sermons/",
+        });
+
+        this.sermons = sermons.data.stories
+          .filter((story) => !story.is_startpage)
+          .sort((a, b) => {
+            return new Date(b.content.date) - new Date(a.content.date);
+          });
+
+        console.log(this.sermons);
+      } catch (err) {
+        console.error("Error loading sermons:", err);
+        throw err;
+      }
     },
   },
 };
 </script>
 
 <style lang="postcss" scoped>
-/deep/ .custom-calendar.vc-container {
-  --day-border: 1px solid #b8c2cc;
-  --day-border-highlight: 1px solid #b8c2cc;
-  --day-width: 90px;
-  --day-height: 90px;
-  --weekday-bg: #f8fafc;
-  --weekday-border: 1px solid #eaeaea;
-
-  border-radius: 0;
-  width: 100%;
-
-  & .vc-header {
-    @apply bg-primary;
-    padding: 10px 0;
-
-    & .vc-title {
-      @apply text-white;
-    }
-  }
-
-  & .vc-weeks {
-    padding: 0;
-  }
-
-  & .vc-weekday {
-    background-color: white;
-    border-bottom: var(--weekday-border);
-    border-top: var(--weekday-border);
-    padding: 5px 0;
-  }
-
-  & .vc-day {
-    padding: 0 5px 3px 5px;
-    text-align: left;
-    height: 90px;
-    min-width: 90px;
-    background-color: white;
-
-    & .weekday-1,
-    &.weekday-7 {
-      background-color: #eff8ff;
-    }
-
-    &:not(.on-bottom) {
-      border-bottom: var(--day-border);
-      & .weekday-1 {
-        border-bottom: var(--day-border-highlight);
-      }
-    }
-
-    &:not(.on-right) {
-      border-right: var(--day-border);
-    }
-  }
-
-  & .vc-day-dots {
-    margin-bottom: 5px;
-  }
-}
+/* Remove unused calendar styles */
 </style>

@@ -44,7 +44,7 @@ export default {
       version: this.version,
     });
 
-    this.getEvents(storyblokApi);
+    await this.getEvents(storyblokApi);
 
     const globalRes = await storyblokApi.get("cdn/stories/global", {
       version: this.version,
